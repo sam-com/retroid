@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="module"
+      async
+      src="/src/api/emulator/initializeEmulator.ts"
+    ></script>
+    <script src="/src/api/emulator/emulatorControls.cjs"></script>
+    <title>Emulator</title>
+  </head>
+  <body
+    id="emulator-body"
+    style="
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <canvas
+      id="canvas"
+      width="800"
+      height="600"
+      style="border: 1px black"
+    ></canvas>
+  </body>
+</html>
