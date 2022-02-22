@@ -17,7 +17,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(root, 'index.html'),
-				emulator: resolve(root, 'emulator', 'index.html'),
+				emulator: resolve(root, 'emulator/index.html'),
 			},
 		},
 	},
