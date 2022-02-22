@@ -3,8 +3,8 @@ import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-const root = resolve(__dirname, './src');
-const outDir = resolve(__dirname, './dist');
+const root = resolve(__dirname, 'src');
+const outDir = resolve(__dirname, 'dist');
 const base = '/retroid/';
 
 // https://vitejs.dev/config/

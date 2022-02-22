@@ -1,4 +1,4 @@
-import { EmulatorMessageType, sendMessage } from './EmulatorMessageHandler';
+import { EmulatorMessageType, sendMessage } from './emulatorMessageHandler';
 import { loadCore } from './loadCore';
 import { loadRom } from './loadRom';
 import { calculateAspectRatioFit } from './resizeEmulator';

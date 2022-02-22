@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef } from 'react';
 import {
 	EmulatorMessage,
 	EmulatorMessageType,
-} from '../../emulator/EmulatorMessageHandler';
+} from '../../emulator/emulatorMessageHandler';
 
 import { EMULATOR_CONTAINER_ID } from './constants';
 import { EmulatorOverlay } from './EmulatorOverlay';

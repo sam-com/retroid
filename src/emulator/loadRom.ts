@@ -4,7 +4,7 @@ import { FsPath } from './fileSystem/constants';
 declare const FS: any;
 
 export async function loadRom(rom: string): Promise<void> {
-	const pathToRom = `./roms/${rom}`;
+	const pathToRom = `${import.meta.env.BASE_URL}/roms/${rom}`;
 	let blob = (await getFile(pathToRom, 'blob')) as Blob | null;
 
 	if (!blob) {
