@@ -1,20 +1,16 @@
-import { loadCore } from "./loadCore";
-import { loadRom } from "./loadRom";
+import { EmulatorRuntime } from "./EmulatorRuntime";
+import { registerMessagesHandler } from "./EmulatorMessageHandler";
 
-declare const window: any;
+const emu = new EmulatorRuntime();
 
-const canvas = document.getElementById("canvas");
+registerMessagesHandler(emu);
 
-window["Module"] = {
-  canvas: canvas,
-  noInitialRun: true,
-  arguments: ["/rom.bin", "--verbose"],
-};
+window.parent.addEventListener("keydown", (e) => {
+  const k = new KeyboardEvent("keydown", e);
+  document.dispatchEvent(k);
+});
 
-window["Module"].onRuntimeInitialized = async () => {
-  console.log("wasm ready");
-  await loadRom("zelda.sfc");
-  window.top.postMessage("ready", "*");
-};
-
-await loadCore("snes9x");
+window.parent.addEventListener("keyup", (e) => {
+  const k = new KeyboardEvent("keyup", e);
+  document.dispatchEvent(k);
+});
