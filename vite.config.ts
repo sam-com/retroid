@@ -11,6 +11,11 @@ export default defineConfig({
 	plugins: [react(), VitePWA({})],
 	root,
 	base: '/retroid/',
+	resolve: {
+		alias: {
+			'@assets': resolve(root, '/assets'),
+		},
+	},
 	build: {
 		outDir,
 		emptyOutDir: true,
