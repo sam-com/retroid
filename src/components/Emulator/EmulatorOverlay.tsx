@@ -6,11 +6,10 @@ import {
 	Replay,
 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import { ReactNode, RefObject, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { Spacer } from '../layout/Spacer';
 
 import { EMULATOR_CONTAINER_ID } from './constants';
-
-type EmulatorRef = RefObject<HTMLIFrameElement>;
 
 type EmulatorOverlayProps = {
 	onStart: () => void;
@@ -18,10 +17,6 @@ type EmulatorOverlayProps = {
 	onResume: () => void;
 	onRestart: () => void;
 };
-
-const Spacer = (props: { direction: 'vertical' | 'horizontal' }) => (
-	<span className={props.direction === 'vertical' ? ' mt-auto' : 'ml-auto'} />
-);
 
 const toggleFullScreen = () => {
 	if (document.fullscreenElement) {

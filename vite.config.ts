@@ -10,6 +10,7 @@ const outDir = resolve(__dirname, 'dist');
 export default defineConfig({
 	plugins: [react(), VitePWA({})],
 	root,
+	base: '/src/',
 	build: {
 		outDir,
 		emptyOutDir: true,
