@@ -10,7 +10,7 @@ const outDir = resolve(__dirname, 'dist');
 export default defineConfig({
 	plugins: [react(), VitePWA({})],
 	root,
-	base: 'https://sam-com.github.io/retroid/',
+	base: '/retroid/',
 	build: {
 		outDir,
 		emptyOutDir: true,
