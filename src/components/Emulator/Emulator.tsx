@@ -2,7 +2,8 @@ import { RefObject, useEffect, useRef } from 'react';
 import {
 	EmulatorMessage,
 	EmulatorMessageType,
-} from '../../api/emulator/EmulatorMessageHandler';
+} from '../../emulator/EmulatorMessageHandler';
+
 import { EMULATOR_CONTAINER_ID } from './constants';
 import { EmulatorOverlay } from './EmulatorOverlay';
 

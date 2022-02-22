@@ -1,10 +1,10 @@
-import { getFile } from '../fileSystem/getFile';
-import { FsPath } from '../fileSystem/constants';
+import { getFile } from './fileSystem/getFile';
+import { FsPath } from './fileSystem/constants';
 
 declare const FS: any;
 
 export async function loadRom(rom: string): Promise<void> {
-	const pathToRom = `../../assets/roms/${rom}`;
+	const pathToRom = `./roms/${rom}`;
 	let blob = (await getFile(pathToRom, 'blob')) as Blob | null;
 
 	if (!blob) {
