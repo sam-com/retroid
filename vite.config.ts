@@ -5,8 +5,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), VitePWA({})],
 	base: '/retroid/',
+	plugins: [react(), VitePWA()],
 	build: {
 		rollupOptions: {
 			input: {
