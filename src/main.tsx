@@ -8,14 +8,12 @@ import { cyan } from '@mui/material/colors';
 const darkTheme = createTheme({
 	palette: {
 		mode: 'dark',
-	},
-	components: {
-		MuiDrawer: {
-			styleOverrides: {
-				paper: {
-					background: cyan[600],
-				},
-			},
+		primary: {
+			main: '#37B6FF',
+		},
+		background: {
+			default: '#1e3c65',
+			paper: '#1e1e1e',
 		},
 	},
 });

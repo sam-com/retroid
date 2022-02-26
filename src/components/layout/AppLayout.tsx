@@ -1,3 +1,4 @@
+import { Box, Paper } from '@mui/material';
 import { ReactNode } from 'react';
 
 type AppLayoutProps = {
@@ -7,13 +8,16 @@ type AppLayoutProps = {
 };
 
 const AppLayoutContainer = (props: { children: ReactNode }) => (
-	<div className='flex w-screen h-screen bg-gray-800 overflow-hidden'>
+	<Box
+		className='flex w-screen h-screen overflow-hidden'
+		sx={{ backgroundColor: 'background.default' }}
+	>
 		{props.children}
-	</div>
+	</Box>
 );
 
 const CenterContainer = (props: { children: ReactNode }) => (
-	<div className='flex grow bg-gray-800 overflow-hidden'>{props.children}</div>
+	<div className='flex grow overflow-hidden'>{props.children}</div>
 );
 const RightContainer = (props: { top: ReactNode; center: ReactNode }) => (
 	<div className='flex grow flex-col'>

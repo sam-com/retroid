@@ -6,6 +6,6 @@ type SpacerProps = {
 
 export function Spacer(props: SpacerProps) {
 	return (
-		<span className={props.direction === 'vertical' ? ' mt-auto' : 'ml-auto'} />
+		<div className={props.direction === 'vertical' ? ' mt-auto' : 'ml-auto'} />
 	);
 }
