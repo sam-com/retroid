@@ -1,5 +1,5 @@
-import { AccessTime } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { AccessTime, SignalWifi4Bar } from '@mui/icons-material';
+import { Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export function Clock() {
@@ -10,16 +10,20 @@ export function Clock() {
 	}, []);
 
 	return (
-		<Typography
-			variant='h6'
-			color='text.primary'
-			className=' gap-1 flex items-center'
-		>
-			<AccessTime fontSize='medium' />
-			{dateState.toLocaleString('en-US', {
-				hour: 'numeric',
-				minute: 'numeric',
-			})}
-		</Typography>
+		<Stack direction='row' spacing={2} className='flex items-center'>
+			<Typography variant='h6' color='text.primary'>
+				{dateState.toLocaleString('en-US', {
+					hour: 'numeric',
+					minute: 'numeric',
+				})}
+			</Typography>
+			<Typography
+				variant='h6'
+				color='text.primary'
+				className='flex items-center'
+			>
+				<SignalWifi4Bar />
+			</Typography>
+		</Stack>
 	);
 }

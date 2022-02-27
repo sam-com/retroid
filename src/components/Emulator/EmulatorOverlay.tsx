@@ -4,8 +4,9 @@ import {
 	PlayArrow,
 	Pause,
 	Replay,
+	AspectRatio,
 } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 import { Spacer } from '../layout/Spacer';
 
@@ -97,15 +98,31 @@ const FullscreenButton = () => {
 	);
 };
 
+const AspectRatioButton = () => {
+	return (
+		<IconButton
+			onClick={() => {}}
+			size='small'
+			color='primary'
+			aria-label='Aspect Ration'
+			component='span'
+		>
+			<AspectRatio fontSize='large' />
+		</IconButton>
+	);
+};
+
 const OverlayContainer = (props: { children: ReactNode }) => (
 	<div className='absolute inset-0 flex flex-col rounded'>{props.children}</div>
 );
 
 const BottomBar = (props: EmulatorOverlayProps) => (
-	<div className='bg-black bg-opacity-60 w-full flex'>
+	<div className='bg-black bg-opacity-60 w-full flex p-2'>
+		<Divider />
 		<StartButton {...props} />
 		<RestartButton {...props} />
 		<Spacer direction='horizontal' />
+		<AspectRatioButton />
 		<FullscreenButton />
 	</div>
 );
