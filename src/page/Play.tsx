@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Emulator } from '../components/emulator/Emulator';
+import { Emulator } from '../components/emulation/Emulator';
 
 export function Play() {
 	return (

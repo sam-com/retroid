@@ -39,8 +39,8 @@
 	],
 	"id": "/retroid/",
 	"lang": "en-us",
-	"name": "@sam-com",
-	"short_name": "@sam-com",
+	"name": "retroid",
+	"short_name": "retroid",
 	"scope": "/retroid/",
 	"start_url": "/retroid/",
 	"theme_color": "#30342D"
