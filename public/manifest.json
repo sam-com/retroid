@@ -39,8 +39,8 @@
 	],
 	"id": "/retroid/",
 	"lang": "en-us",
-	"name": "retroid",
-	"short_name": "retroid",
+	"name": "Retroid",
+	"short_name": "Retroid",
 	"scope": "/retroid/",
 	"start_url": "/retroid/",
 	"theme_color": "#30342D"
