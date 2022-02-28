@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Emulator</title>
+		<script type="module" crossorigin src="/retroid/assets/emulator.d2c10406.js"></script>
+		<link rel="modulepreload" href="/retroid/assets/emulatorMessageHandler.2af1efb8.js">
+	<link rel="manifest" href="/retroid/manifest.webmanifest"></head>
+	<body style="margin: 0">
+		
+		<div
+			id="emulator-body"
+			style="
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				width: 100vw;
+			"
+		>
+			<canvas
+				id="canvas"
+				style="
+					aspect-ratio: 4/3;
+					width: 100%;
+					height: 100%;
+					image-rendering: pixelated;
+				"
+			></canvas>
+		</div>
+	</body>
+</html>
