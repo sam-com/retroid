@@ -1,10 +1,13 @@
 export function calculateAspectRatioFit(
-  w: number,
-  h: number,
-  maxW: number,
-  maxH: number
+  container: HTMLElement,
+  keepRatio: boolean
 ) {
-  var ratio = Math.min(maxW / w, maxH / h);
+  const { offsetWidth: w, offsetHeight: h } = container;
+
+  if (!keepRatio) return [w, h];
+
+  const { innerWidth: maxW, innerHeight: maxH } = window;
+  const ratio = Math.min(maxW / w, maxH / h);
 
   return [w * ratio, h * ratio];
 }

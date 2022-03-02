@@ -1,3 +1,4 @@
+import retroidLogo from '@/assets/retroid_t.png'
 import { AppBar, Avatar, Breadcrumbs, Link, Toolbar } from '@mui/material';
 import { Spacer } from '../layout/Spacer';
 import { Clock } from '../widgets/Clock';
@@ -10,7 +11,7 @@ export function Topbar() {
 					<Link underline='hover' color='inherit' href='/'>
 						<Avatar
 							variant='square'
-							src='/retroid_t.png'
+						src={retroidLogo}
 							sx={{ width: 56, height: 48 }}
 						/>
 					</Link>

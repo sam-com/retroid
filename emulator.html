@@ -1,33 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" style="overflow: hidden">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Emulator</title>
-	</head>
-	<body style="margin: 0">
-		<script type="module" src="/src/emulator/initializeEmulator.ts"></script>
-		<div
-			id="emulator-body"
-			style="
-				margin: 0;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-				width: 100vw;
-			"
-		>
-			<canvas
-				id="canvas"
-				style="
-					aspect-ratio: 4/3;
-					width: 100%;
-					height: 100%;
-					image-rendering: pixelated;
-				"
-			></canvas>
-		</div>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./emulator.css" />
+    <title>Emulator Runtime</title>
+  </head>
+  <body>
+    <script type="module" src="/src/emulator/initializeEmulator.ts"></script>
+    <div id="canvas-container">
+      <canvas id="canvas"></canvas>
+    </div>
+  </body>
 </html>

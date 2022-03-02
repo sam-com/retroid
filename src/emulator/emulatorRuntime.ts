@@ -1,101 +1,104 @@
-import { EmulatorMessageType, sendMessage } from './emulatorMessageHandler';
-import { loadCore } from './loadCore';
-import { loadRom } from './loadRom';
-import { calculateAspectRatioFit } from './resizeEmulator';
+import { sendMessage } from "@/api/utils/messageHandlers/sendMessage";
+import { OutgoingEmulatorMessageType } from "../api/utils/messageHandlers/emulatorMessageHandler";
+import { loadCore } from "./loadCore";
+import { loadRom } from "./loadRom";
+import { calculateAspectRatioFit } from "./resizeEmulator";
 
 type ModuleArguments = any[];
 
 type Module = {
-	arguments: ModuleArguments;
-	canvas: HTMLCanvasElement;
-	noInitialRun: boolean;
-	onRuntimeInitialized: () => void | Promise<void>;
-	callMain: (args: ModuleArguments) => void;
-	pauseMainLoop: () => void;
-	resumeMainLoop: () => void;
-	setCanvasSize: (width: number, height: number, bool: boolean) => void;
+  arguments: ModuleArguments;
+  canvas: HTMLCanvasElement;
+  noInitialRun: boolean;
+  onRuntimeInitialized: () => void | Promise<void>;
+  callMain: (args: ModuleArguments) => void;
+  pauseMainLoop: () => void;
+  resumeMainLoop: () => void;
+  setCanvasSize: (width: number, height: number, bool: boolean) => void;
 };
 
 declare const window: any;
 
 function setBaseModule(canvas: HTMLCanvasElement) {
-	window.Module = {
-		canvas: canvas,
-		noInitialRun: true,
-		onRuntimeInitialized: () => {},
-		arguments: ['/rom.bin', '--verbose'],
-	};
+  window.Module = {
+    canvas: canvas,
+    noInitialRun: true,
+    onRuntimeInitialized: () => {},
+    arguments: ["/rom.bin", "--verbose"],
+  };
 
-	return window.Module;
+  return window.Module;
 }
 
 export class EmulatorRuntime {
-	module: Module;
-	canvas: HTMLCanvasElement;
-	container: HTMLDivElement;
-	constructor() {
-		this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-		this.container = document.getElementById('emulator-body') as HTMLDivElement;
-		this.module = setBaseModule(this.canvas);
+  originalRatio: boolean;
+  module: Module;
+  parent: Window;
+  canvas: HTMLCanvasElement;
+  container: HTMLDivElement;
+  started: boolean;
+  ready: boolean;
 
-		window.addEventListener('resize', this.resize.bind(this), false);
-		// window.addEventListener("blur", this.focus.bind(this), false);
+  constructor() {
+    this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    this.container = document.getElementById(
+      "canvas-container"
+    ) as HTMLDivElement;
+    this.module = setBaseModule(this.canvas);
+    this.parent = window.top;
+    this.ready = false;
+    this.started = false;
+    this.originalRatio = true;
 
-		sendMessage(window.top, { type: EmulatorMessageType.ready });
-	}
+    sendMessage(this.parent, { type: OutgoingEmulatorMessageType.initialized });
+    window.addEventListener("resize", this.resize.bind(this), false);
+  }
 
-	start() {
-		this.module.callMain(window['Module'].arguments);
+  start() {
+    this.module.callMain(window["Module"].arguments);
 
-		requestAnimationFrame(() => {
-			this.resize();
-		});
-	}
+    requestAnimationFrame(() => {
+      this.resize();
+    });
+  }
 
-	restart() {
-		window.location.href = window.location.href;
-	}
+  restart() {
+    window.location.href = window.location.href;
+  }
 
-	async initializeCoreAndRom({ core, rom }: { core: string; rom: string }) {
-		await loadCore(core);
-		await loadRom(rom);
-	}
+  async initializeCoreAndRom({ core, rom }: { core: string; rom: string }) {
+    await loadCore(core);
+    await loadRom(rom);
+    sendMessage(this.parent, { type: OutgoingEmulatorMessageType.ready });
+  }
 
-	async loadCore(core: string) {
-		await loadCore(core);
-	}
+  async loadCore(core: string) {
+    await loadCore(core);
+  }
 
-	async loadRom(rom: string) {
-		await loadRom(rom);
-	}
+  async loadRom(rom: string) {
+    await loadRom(rom);
+  }
 
-	pause() {
-		this.module.pauseMainLoop();
-	}
+  pause() {
+    this.module.pauseMainLoop();
+  }
 
-	resume() {
-		this.module.resumeMainLoop();
-	}
+  resume() {
+    this.module.resumeMainLoop();
+  }
 
-	resize() {
-		const { offsetWidth, offsetHeight } = this.container;
-		const { innerWidth, innerHeight } = window;
-		const [width, height] = calculateAspectRatioFit(
-			offsetWidth,
-			offsetHeight,
-			innerWidth,
-			innerHeight
-		);
+  changeAspectRatio() {
+    this.originalRatio = !this.originalRatio;
+    this.resize();
+  }
 
-		this.module.setCanvasSize(width, height, true);
-	}
+  resize() {
+    const [width, height] = calculateAspectRatioFit(
+      this.container,
+      this.originalRatio
+    );
 
-	focus() {
-		console.log('blur');
-
-		requestAnimationFrame(() => {
-			window.blur();
-			window.focus();
-		});
-	}
+    this.module.setCanvasSize(width, height, false);
+  }
 }

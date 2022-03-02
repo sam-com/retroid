@@ -1,4 +1,4 @@
-import { registerMessagesHandler } from './emulatorMessageHandler';
+import { registerMessagesHandler } from '../api/utils/messageHandlers/emulatorMessageHandler';
 import { EmulatorRuntime } from './emulatorRuntime';
 
 const emu = new EmulatorRuntime();
