@@ -1,71 +1,80 @@
-import { Box, Divider, Drawer, Icon, IconButton, Stack } from '@mui/material';
-import { useState } from 'react';
-import { Spacer } from '../layout/Spacer';
+import { Avatar, Box, Divider, Drawer, Tab, Tabs } from "@mui/material";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Spacer } from "../layout/Spacer";
 import {
-	accountSidebarItem,
-	mainSidebarItems,
-	secondarySidebarItems,
-} from './sidebarItems';
-import { SidebarItem } from './types';
+  mainSidebarItems,
+  secondarySidebarItems,
+  sidebarItemKeys,
+} from "./sidebarItems";
+import { SidebarItem } from "./types";
 
 type SidebarMenuItemProps = {
-	item: SidebarItem;
-	onClick: (itemKey: SidebarItem['key']) => void;
-	active: boolean;
+  item: SidebarItem;
+  onClick: (item: SidebarItem) => void;
+  active: boolean;
 };
 
-function SidebarMenuItem({ active, item, onClick }: SidebarMenuItemProps) {
-	const Icon = active ? item.activeIcon : item.icon;
-	return (
-		<IconButton
-			color={active ? item.color : 'info'}
-			sx={{ width: '64px', height: '64px' }}
-			onClick={() => onClick(item.key)}
-		>
-			<Icon fontSize='large' />
-		</IconButton>
-	);
+function getTab({ active, item, onClick }: SidebarMenuItemProps) {
+  const Icon = active ? item.activeIcon : item.icon;
+
+  return (
+    <Tab
+      key={item.key}
+      value={item.key}
+      icon={<Icon fontSize="large" />}
+      onClick={() => onClick(item)}
+    />
+  );
 }
 
 export function Sidebar() {
-	const [activeItem, setActiveItem] = useState<string>('games');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialActiveItem = sidebarItemKeys.find((key) =>
+    location.pathname.includes(key)
+  );
 
-	const handleChangeActiveItem = (itemKey: string) => setActiveItem(itemKey);
+  const [activeItem, setActiveItem] = useState(initialActiveItem);
 
-	return (
-		<Drawer variant='persistent' anchor='left' sx={{ width: '78px' }} open>
-			<Box className='flex flex-col grow items-center p-2'>
-				<Stack>
-					<SidebarMenuItem
-						key={accountSidebarItem.key}
-						item={accountSidebarItem}
-						onClick={handleChangeActiveItem}
-						active={activeItem === accountSidebarItem.key}
-					/>
-					<Divider sx={{ margin: '16px 0' }} />
-					<Stack spacing={1}>
-						{mainSidebarItems.map((mainItem) => (
-							<SidebarMenuItem
-								key={mainItem.key}
-								item={mainItem}
-								active={activeItem === mainItem.key}
-								onClick={handleChangeActiveItem}
-							/>
-						))}
-					</Stack>
-				</Stack>
-				<Spacer direction='vertical' />
-				<Stack spacing={1} direction='column'>
-					{secondarySidebarItems.map((mainItem) => (
-						<SidebarMenuItem
-							key={mainItem.key}
-							item={mainItem}
-							active={activeItem === mainItem.key}
-							onClick={handleChangeActiveItem}
-						/>
-					))}
-				</Stack>
-			</Box>
-		</Drawer>
-	);
+  const handleChangeActiveItem = (item: SidebarItem) => {
+    setActiveItem(item.key);
+    navigate(item.link);
+  };
+
+  return (
+    <Drawer variant="persistent" anchor="left" sx={{ width: "90px" }} open>
+      <Box className="flex flex-col grow items-center pt-4 overflow-hidden">
+        <Avatar sx={{ color: "success.main" }} />
+        <Divider sx={{ margin: "16px 0" }} />
+        <Tabs
+          value={activeItem}
+          orientation="vertical"
+          variant="scrollable"
+          aria-label="tabs"
+          classes={{
+            root: "grow",
+            indicator: "left-0 bg-green-50",
+            flexContainerVertical: "h-full",
+          }}
+        >
+          {mainSidebarItems.map((mainItem) =>
+            getTab({
+              active: activeItem === mainItem.key,
+              item: mainItem,
+              onClick: handleChangeActiveItem,
+            })
+          )}
+          <Spacer direction="vertical" />
+          {secondarySidebarItems.map((secondaryItem) =>
+            getTab({
+              active: activeItem === secondaryItem.key,
+              item: secondaryItem,
+              onClick: handleChangeActiveItem,
+            })
+          )}
+        </Tabs>
+      </Box>
+    </Drawer>
+  );
 }

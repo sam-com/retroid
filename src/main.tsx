@@ -3,12 +3,16 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { BrowserRouter } from "react-router-dom";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
       main: "#37B6FF",
+    },
+    secondary: {
+      main: "#80cb2b",
     },
     info: {
       main: "#D9D9D8",
@@ -34,9 +38,11 @@ const darkTheme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <App />
-    </ThemeProvider>
+    <BrowserRouter basename="retroid">
+      <ThemeProvider theme={darkTheme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

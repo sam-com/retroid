@@ -12,6 +12,8 @@ type Module = {
   noInitialRun: boolean;
   onRuntimeInitialized: () => void | Promise<void>;
   callMain: (args: ModuleArguments) => void;
+  print: (text: string) => void;
+  printErr: (text: string) => void;
   pauseMainLoop: () => void;
   resumeMainLoop: () => void;
   setCanvasSize: (width: number, height: number, bool: boolean) => void;
@@ -24,6 +26,8 @@ function setBaseModule(canvas: HTMLCanvasElement) {
     canvas: canvas,
     noInitialRun: true,
     onRuntimeInitialized: () => {},
+    print: () => {},
+    printErr: () => {},
     arguments: ["/rom.bin", "--verbose"],
   };
 
@@ -44,6 +48,7 @@ export class EmulatorRuntime {
     this.container = document.getElementById(
       "canvas-container"
     ) as HTMLDivElement;
+
     this.module = setBaseModule(this.canvas);
     this.parent = window.top;
     this.ready = false;

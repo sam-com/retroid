@@ -1,75 +1,70 @@
+import { MainRoutes } from "@/api/routes/mainRoutes";
 import {
-	GamepadOutlined,
-	Star,
-	Gamepad,
-	History,
-	StarBorder,
-	SettingsOutlined,
-	Settings,
-	PowerSettingsNew,
-	PowerSettingsNewTwoTone,
-	AccountCircleOutlined,
-	AccountCircle,
-	SportsEsports,
-	SportsEsportsOutlined,
-	Apps,
-	Computer,
-	Bookmark,
-	BookmarkOutlined,
-	BookmarkBorder,
-	CategoryOutlined,
-	Category,
-	WatchLaterOutlined,
-	WatchLater,
-	SettingsPower,
-} from '@mui/icons-material';
-import { SidebarItem } from './types';
-
-export const accountSidebarItem: SidebarItem = {
-	key: 'account',
-	icon: AccountCircleOutlined,
-	activeIcon: AccountCircle,
-	color: 'info',
-};
+  SettingsOutlined,
+  Settings,
+  PowerSettingsNew,
+  SportsEsports,
+  SportsEsportsOutlined,
+  WatchLaterOutlined,
+  WatchLater,
+  SettingsPower,
+  FolderSpecialOutlined,
+  FolderSpecial,
+  HomeOutlined,
+  Home,
+  PanoramaWideAngle,
+  PanoramaWideAngleSelect,
+} from "@mui/icons-material";
+import { SidebarItem } from "./types";
 
 export const mainSidebarItems: SidebarItem[] = [
-	{
-		key: 'games',
-		icon: SportsEsportsOutlined,
-		activeIcon: SportsEsports,
-		color: 'success',
-	},
-	{
-		key: 'consoles',
-		icon: CategoryOutlined,
-		activeIcon: Category,
-		color: 'error',
-	},
-	{
-		key: 'recent',
-		icon: WatchLaterOutlined,
-		activeIcon: WatchLater,
-		color: 'primary',
-	},
-	{
-		key: 'favorites',
-		icon: BookmarkBorder,
-		activeIcon: Bookmark,
-		color: 'warning',
-	},
+  {
+    key: "home",
+    icon: HomeOutlined,
+    activeIcon: Home,
+    link: MainRoutes.home,
+  },
+  {
+    key: "games",
+    icon: SportsEsportsOutlined,
+    activeIcon: SportsEsports,
+    link: MainRoutes.games,
+  },
+  {
+    key: "consoles",
+    icon: PanoramaWideAngle,
+    activeIcon: PanoramaWideAngleSelect,
+    link: MainRoutes.consoles,
+  },
+  {
+    key: "recent",
+    icon: WatchLaterOutlined,
+    activeIcon: WatchLater,
+    link: MainRoutes.recent,
+  },
+  {
+    key: "favorites",
+    icon: FolderSpecialOutlined,
+    activeIcon: FolderSpecial,
+    link: MainRoutes.favorites,
+  },
 ];
 
 export const secondarySidebarItems: SidebarItem[] = [
-	{
-		key: 'power',
-		icon: PowerSettingsNew,
-		activeIcon: SettingsPower,
-		color: 'info',
-	},
-	{
-		key: 'settings',
-		icon: SettingsOutlined,
-		activeIcon: Settings,
-		color: 'info',
-	},
+  {
+    key: "power",
+    icon: PowerSettingsNew,
+    activeIcon: SettingsPower,
+    link: MainRoutes.power,
+  },
+  {
+    key: "settings",
+    icon: SettingsOutlined,
+    activeIcon: Settings,
+    link: MainRoutes.settings,
+  },
 ];
+
+const allSidebarItems = [...mainSidebarItems, ...secondarySidebarItems];
+
+export const sidebarItemKeys = allSidebarItems.map(({ key }) => key);
