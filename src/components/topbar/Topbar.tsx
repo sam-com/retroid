@@ -1,5 +1,12 @@
 import retroidLogo from "@/assets/retroid_t.png";
-import { AppBar, Avatar, Breadcrumbs, Toolbar, Link } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Breadcrumbs,
+  Toolbar,
+  Link,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { Spacer } from "../layout/Spacer";
 import { Clock } from "../widgets/Clock";
@@ -17,7 +24,9 @@ function BreadcrumbItem({
 
   return (
     <Link component={RouterLink} to={to} color="inherit" underline="hover">
-      {label}
+      <Typography variant="h6" sx={{ userSelect: "none" }}>
+        {label}
+      </Typography>
     </Link>
   );
 }

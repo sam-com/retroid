@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Drawer, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Spacer } from "../layout/Spacer";
 import {
   mainSidebarItems,
@@ -28,24 +28,33 @@ function getTab({ active, item, onClick }: SidebarMenuItemProps) {
   );
 }
 
-export function Sidebar() {
-  const navigate = useNavigate();
+const findActiveItem = (pathname: string) =>
+  sidebarItemKeys.find((key) => pathname.includes(key)) || sidebarItemKeys[0];
+
+function useActiveTab() {
   const location = useLocation();
-  const initialActiveItem = sidebarItemKeys.find((key) =>
-    location.pathname.includes(key)
+  const [activeItem, setActiveItem] = useState<string>(
+    findActiveItem(location.pathname)
   );
 
-  const [activeItem, setActiveItem] = useState(initialActiveItem);
+  useEffect(() => {
+    const newActive = findActiveItem(location.pathname);
+    setActiveItem(newActive);
+  }, [location]);
 
-  const handleChangeActiveItem = (item: SidebarItem) => {
-    setActiveItem(item.key);
-    navigate(item.link);
-  };
+  return activeItem;
+}
+
+export function Sidebar() {
+  const navigate = useNavigate();
+  const activeItem = useActiveTab();
+
+  const handleChangeActiveItem = (item: SidebarItem) => navigate(item.link);
 
   return (
     <Drawer variant="persistent" anchor="left" sx={{ width: "90px" }} open>
       <Box className="flex flex-col grow items-center pt-4 overflow-hidden">
-        <Avatar sx={{ color: "success.main" }} />
+        <Avatar sx={{ bgcolor: "primary.main" }} />
         <Divider sx={{ margin: "16px 0" }} />
         <Tabs
           value={activeItem}
