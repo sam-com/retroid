@@ -73,6 +73,7 @@ export function Emulator(props: { rom: string; core: string }) {
       className="relative w-full h-full flex items-center justify-center select-none bg-black"
     >
       <iframe
+        referrerPolicy="same-origin"
         id="iframe-id"
         className="w-full h-full"
         ref={iframeRef}

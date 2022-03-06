@@ -1,47 +1,47 @@
 {
-	"$schema": "https://json.schemastore.org/web-manifest-combined.json",
-	"background_color": "#161b1d",
-	"description": "Emulation library in the web browser",
-	"display": "standalone",
-	"orientation": "landscape",
-	"icons": [
-		{
-			"sizes": "192x192",
-			"src": "/retroid/retroid_192.png",
-			"type": "image/png"
-		},
-		{
-			"sizes": "128x128",
-			"src": "/retroid/retroid_128.png",
-			"type": "image/png"
-		},
-		{
-			"sizes": "128x128",
-			"src": "/retroid/apple-touch-icon.png",
-			"type": "image/png"
-		},
-		{
-			"sizes": "256x256",
-			"src": "/retroid/retroid_256.png",
-			"type": "image/png"
-		},
-		{
-			"sizes": "512x512",
-			"src": "/retroid/retroid_512.png",
-			"type": "image/png"
-		},
-		{
-			"purpose": "maskable",
-			"sizes": "512x512",
-			"src": "/retroid/retroid_512.png",
-			"type": "image/png"
-		}
-	],
-	"id": "/retroid/",
-	"lang": "en-us",
-	"name": "Retroid",
-	"short_name": "Retroid",
-	"scope": "/retroid/",
-	"start_url": "/retroid/",
-	"theme_color": "#30342D"
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "background_color": "#161b1d",
+  "description": "Emulation library in the web browser",
+  "display": "standalone",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "sizes": "192x192",
+      "src": "/retroid/retroid_192.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "128x128",
+      "src": "/retroid/retroid_128.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "128x128",
+      "src": "/retroid/apple-touch-icon.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "256x256",
+      "src": "/retroid/retroid_256.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "512x512",
+      "src": "/retroid/retroid_512.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "/retroid/retroid_512.png",
+      "type": "image/png"
+    }
+  ],
+  "id": "/retroid/",
+  "lang": "en-us",
+  "name": "Retroid",
+  "short_name": "Retroid",
+  "scope": "/retroid/",
+  "start_url": "/retroid/",
+  "theme_color": "#1E1E1E"
 }

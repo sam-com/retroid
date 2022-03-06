@@ -52,7 +52,12 @@ export function Sidebar() {
   const handleChangeActiveItem = (item: SidebarItem) => navigate(item.link);
 
   return (
-    <Drawer variant="persistent" anchor="left" sx={{ width: "90px" }} open>
+    <Drawer
+      variant="permanent"
+      anchor="left"
+      sx={{ width: "90px" }}
+      elevation={0}
+    >
       <Box className="flex flex-col grow items-center pt-4 overflow-hidden">
         <Avatar sx={{ bgcolor: "primary.main" }} />
         <Divider sx={{ margin: "16px 0" }} />

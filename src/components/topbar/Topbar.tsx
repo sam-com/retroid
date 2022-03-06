@@ -1,3 +1,4 @@
+import { MainRoutes } from "@/api/routes/mainRoutes";
 import retroidLogo from "@/assets/retroid_t.png";
 import {
   AppBar,
@@ -41,7 +42,7 @@ export function Topbar() {
         <Breadcrumbs aria-label="breadcrumb">
           <Link
             component={RouterLink}
-            to="/home"
+            to={MainRoutes.home}
             underline="hover"
             color="inherit"
           >

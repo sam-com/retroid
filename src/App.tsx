@@ -12,7 +12,7 @@ function App() {
   return (
     <AppLayout left={<Sidebar />} top={<Topbar />} bottom={<Bottombar />}>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Play />} />
         <Route path="/games" element={<Games />} />
         <Route path="/consoles" element={<Consoles />} />
         <Route path="*" element={<Navigate to="/home" />} />
