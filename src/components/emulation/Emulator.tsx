@@ -77,7 +77,7 @@ export function Emulator(props: { rom: string; core: string }) {
         id="iframe-id"
         className="w-full h-full"
         ref={iframeRef}
-        src="emulator.html"
+        src={`${import.meta.env.BASE_URL}/emulator.html`}
         title="Emulator"
       />
 

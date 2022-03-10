@@ -7,6 +7,7 @@ import {
   Toolbar,
   Link,
   Typography,
+  capitalize,
 } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { Spacer } from "../layout/Spacer";
@@ -20,8 +21,8 @@ function BreadcrumbItem({
   index: number;
 }) {
   const toUrl = (path: string, crumb: string) => `${path}/${crumb}`;
-  const label = crumbs[index];
-  const to = crumbs.reduce(toUrl, "");
+  const label = capitalize(crumbs[index]);
+  const to = crumbs.slice(0, index + 1).reduce(toUrl, "");
 
   return (
     <Link component={RouterLink} to={to} color="inherit" underline="hover">
