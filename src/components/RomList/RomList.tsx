@@ -1,5 +1,6 @@
 import { useKeyboardInput } from "@/hooks/useKeyboardInput";
 import {
+  Button,
   Grid,
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BgContainer } from "../layout/BgContainer";
@@ -70,6 +72,7 @@ export function RomListItem(props: {
       hover
       selected={index === selectedRom}
       onClick={() => onClick(index)}
+      className="cursor-pointer select-none"
     >
       <TableCell width={48}>
         <img src="/consoles/snes.png" style={{ maxWidth: "36px" }} />
