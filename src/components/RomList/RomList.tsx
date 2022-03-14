@@ -127,12 +127,12 @@ const RomListLayout = (props: {
       {props.romTable}
     </Grid>
     <Grid item container xs={7} spacing={2}>
-      <Grid item xs={7} height="65%">
+      <Grid item xs={12} height="65%">
         {props.romArt}
       </Grid>
-      <Grid item xs={5} height="65%">
+      {/* <Grid item xs={5} height="65%">
         {props.romDetails}
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} height="35%">
         {props.romDescription}
       </Grid>

@@ -1,16 +1,24 @@
 import { useEffect } from "react";
+import { throttle } from "throttle-debounce";
 
-export function useKeyboardInput(key: string, callback: () => void) {
-  const keyboardListener = (e: KeyboardEvent) => {
-    e.preventDefault();
-
-    if (e.key !== key) return;
-    callback();
-  };
-
+export function useKeyboardInput(
+  key: string,
+  callback: () => void,
+  delay: number = 75
+) {
   useEffect(() => {
-    window.addEventListener("keydown", keyboardListener);
+    const keyboardListener = (e: KeyboardEvent) => {
+      e.preventDefault();
+
+      if (e.key !== key) return;
+      callback();
+    };
+
+    window.addEventListener(
+      "keydown",
+      throttle(delay, false, keyboardListener)
+    );
 
     return () => window.removeEventListener("keydown", keyboardListener);
-  }, [keyboardListener]);
+  }, []);
 }

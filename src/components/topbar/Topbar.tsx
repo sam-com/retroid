@@ -9,17 +9,22 @@ import {
   Typography,
   capitalize,
 } from "@mui/material";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink, useLocation, matchPath } from "react-router-dom";
 import { Spacer } from "../layout/Spacer";
 import { Clock } from "../widgets/Clock";
 
 function BreadcrumbItem({
+  location,
   crumbs,
   index,
 }: {
+  location: any;
   crumbs: string[];
   index: number;
 }) {
+  const params = matchPath(location.pathname, location.pathname);
+  console.log(params);
+
   const toUrl = (path: string, crumb: string) => `${path}/${crumb}`;
   const label = capitalize(crumbs[index]);
   const to = crumbs.slice(0, index + 1).reduce(toUrl, "");
@@ -35,6 +40,7 @@ function BreadcrumbItem({
 
 export function Topbar() {
   const location = useLocation();
+
   const crumbs = location.pathname.split("/").splice(1);
 
   return (
@@ -54,7 +60,12 @@ export function Topbar() {
             />
           </Link>
           {crumbs.map((crumb, index) => (
-            <BreadcrumbItem key={crumb} crumbs={crumbs} index={index} />
+            <BreadcrumbItem
+              key={crumb}
+              crumbs={crumbs}
+              index={index}
+              location={location}
+            />
           ))}
         </Breadcrumbs>
         <Spacer direction="horizontal" />
