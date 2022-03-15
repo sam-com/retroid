@@ -3,19 +3,17 @@ import { Bottombar } from "./components/bottombar/Bottombar";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { Topbar } from "./components/topbar/Topbar";
-import { Consoles } from "./pages/Console";
-import { Games } from "./pages/Games";
-import { Home } from "./pages/Home";
-import { Play } from "./pages/Play";
+import { routes, type AppRoute } from "./routing/routes";
 
 function App() {
+  const toRouterRoute = (route: AppRoute) => (
+    <Route key={route.path} {...route} />
+  );
+
   return (
     <AppLayout left={<Sidebar />} top={<Topbar />} bottom={<Bottombar />}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="games" element={<Games />} />
-        <Route path="games/:romId" element={<Play />} />
-        <Route path="consoles" element={<Consoles />} />
+        {routes.map(toRouterRoute)}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AppLayout>

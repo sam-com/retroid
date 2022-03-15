@@ -11,16 +11,16 @@ export function useKeyboardInput(
   callback: () => void,
   { delay = 75, once = false }: UseKeyboardInputOptions = {}
 ) {
-  const keyboardListener = throttle(delay, false, (e: KeyboardEvent) => {
-    e.preventDefault();
-
-    if (e.key !== key) return;
-    callback();
-  });
-
   useEffect(() => {
+    const keyboardListener = throttle(delay, false, (e: KeyboardEvent) => {
+      e.preventDefault();
+
+      if (e.key !== key) return;
+      callback();
+    });
+
     window.addEventListener("keydown", keyboardListener, { once });
 
     return () => window.removeEventListener("keydown", keyboardListener);
-  }, [keyboardListener]);
+  }, []);
 }

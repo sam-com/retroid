@@ -7,41 +7,41 @@
   "icons": [
     {
       "sizes": "192x192",
-      "src": "/retroid/retroid_192.png",
+      "src": "/retroid_192.png",
       "type": "image/png"
     },
     {
       "sizes": "128x128",
-      "src": "/retroid/retroid_128.png",
+      "src": "/retroid_128.png",
       "type": "image/png"
     },
     {
       "sizes": "128x128",
-      "src": "/retroid/apple-touch-icon.png",
+      "src": "/apple-touch-icon.png",
       "type": "image/png"
     },
     {
       "sizes": "256x256",
-      "src": "/retroid/retroid_256.png",
+      "src": "/retroid_256.png",
       "type": "image/png"
     },
     {
       "sizes": "512x512",
-      "src": "/retroid/retroid_512.png",
+      "src": "/retroid_512.png",
       "type": "image/png"
     },
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "/retroid/retroid_512.png",
+      "src": "/retroid_512.png",
       "type": "image/png"
     }
   ],
-  "id": "/retroid/",
+  "id": "retroid",
   "lang": "en-us",
   "name": "Retroid",
   "short_name": "Retroid",
-  "scope": "/retroid/",
-  "start_url": "/retroid/",
+  "scope": "/",
+  "start_url": "/",
   "theme_color": "#1E1E1E"
 }

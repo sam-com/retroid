@@ -38,7 +38,7 @@ const darkTheme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="retroid">
+    <BrowserRouter basename="/">
       <ThemeProvider theme={darkTheme}>
         <App />
       </ThemeProvider>

@@ -70,14 +70,14 @@ export function Emulator(props: { rom: string; core: string }) {
     <figure
       ref={containerRef}
       id={EMULATOR_CONTAINER_ID}
-      className="relative w-full h-full flex items-center justify-center select-none bg-black"
+      className="relative w-full h-full flex items-center justify-center select-none bg-black rounded-md overflow-hidden"
     >
       <iframe
         referrerPolicy="same-origin"
         id="iframe-id"
-        className="w-full h-full"
+        className="w-full h-full rounded"
         ref={iframeRef}
-        src={`${import.meta.env.BASE_URL}/emulator.html`}
+        src={"/emulator.html"}
         title="Emulator"
       />
 
