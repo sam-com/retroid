@@ -1,4 +1,5 @@
 import { useKeyboardInput } from "@/hooks/useKeyboardInput";
+import { useStateRef } from "@/hooks/useStateRef";
 import {
   Button,
   Grid,
@@ -141,18 +142,21 @@ const RomListLayout = (props: {
 );
 
 export function RomList() {
-  const [selectedRom, setSelectedRom] = useState<number>(0);
+  const [selectedRom, setSelectedRom, selectedRomRef] = useStateRef(0);
   const handleClickRom = (romIndex: number) => setSelectedRom(romIndex);
   const navigate = useNavigate();
 
-  useKeyboardInput("Enter", () => navigate(`/games/${roms[selectedRom].id}`));
+  const handleNavigate = () =>
+    navigate(`/games/${roms[selectedRomRef.current].id}`);
+
+  useKeyboardInput("Enter", handleNavigate);
   useKeyboardInput("ArrowUp", () =>
-    setSelectedRom((selectedIndex) =>
-      selectedIndex > 0 ? selectedIndex - 1 : roms.length - 1
+    setSelectedRom(
+      selectedRomRef.current > 0 ? selectedRomRef.current - 1 : roms.length - 1
     )
   );
   useKeyboardInput("ArrowDown", () =>
-    setSelectedRom((selectedIndex) => (selectedIndex + 1) % roms.length)
+    setSelectedRom((selectedRomRef.current + 1) % roms.length)
   );
 
   const romTable = (

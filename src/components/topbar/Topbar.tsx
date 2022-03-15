@@ -1,5 +1,6 @@
 import { MainRoutes } from "@/api/routes/mainRoutes";
 import retroidLogo from "@/assets/retroid_t.png";
+import { NavigateNext } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
@@ -9,24 +10,28 @@ import {
   Typography,
   capitalize,
 } from "@mui/material";
-import { Link as RouterLink, useLocation, matchPath } from "react-router-dom";
+import { Link as RouterLink, useLocation, useMatch } from "react-router-dom";
 import { Spacer } from "../layout/Spacer";
+import { roms } from "../RomList/roms";
 import { Clock } from "../widgets/Clock";
 
 function BreadcrumbItem({
-  location,
   crumbs,
   index,
 }: {
-  location: any;
   crumbs: string[];
   index: number;
 }) {
-  const params = matchPath(location.pathname, location.pathname);
-  console.log(params);
+  const match = useMatch("/games/:romId");
+  let custom;
+
+  if (match?.params.romId && crumbs[index] === match.params.romId) {
+    console.log("match!");
+    custom = roms.find((rom) => rom.id === match.params.romId)?.name;
+  }
 
   const toUrl = (path: string, crumb: string) => `${path}/${crumb}`;
-  const label = capitalize(crumbs[index]);
+  const label = custom || capitalize(crumbs[index]);
   const to = crumbs.slice(0, index + 1).reduce(toUrl, "");
 
   return (
@@ -41,12 +46,15 @@ function BreadcrumbItem({
 export function Topbar() {
   const location = useLocation();
 
-  const crumbs = location.pathname.split("/").splice(1);
+  const crumbs = location.pathname.split("/").filter((crumb) => crumb?.length);
 
   return (
     <AppBar position="relative" color="transparent" elevation={0}>
       <Toolbar>
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          separator={<NavigateNext aria-hidden />}
+        >
           <Link
             component={RouterLink}
             to={MainRoutes.home}
@@ -56,16 +64,11 @@ export function Topbar() {
             <Avatar
               variant="square"
               src={retroidLogo}
-              sx={{ width: 56, height: 48 }}
+              sx={{ width: 48, height: 48 }}
             />
           </Link>
           {crumbs.map((crumb, index) => (
-            <BreadcrumbItem
-              key={crumb}
-              crumbs={crumbs}
-              index={index}
-              location={location}
-            />
+            <BreadcrumbItem key={crumb} crumbs={crumbs} index={index} />
           ))}
         </Breadcrumbs>
         <Spacer direction="horizontal" />

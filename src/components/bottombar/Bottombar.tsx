@@ -4,7 +4,7 @@ import {
   RemoveCircle,
   SvgIconComponent,
 } from "@mui/icons-material";
-import { Stack, Toolbar, Typography } from "@mui/material";
+import { Box, Divider, Stack, Toolbar, Typography } from "@mui/material";
 import { Spacer } from "../layout/Spacer";
 
 function ControlOption({
@@ -28,14 +28,17 @@ function ControlOption({
 
 export function Bottombar() {
   return (
-    <Toolbar>
-      <Spacer direction="horizontal" />
-      <Stack spacing={3} direction="row">
-        <ControlOption icon={Circle} text="Open" />
-        <ControlOption icon={Circle} text="Go Back" />
-        <ControlOption icon={RemoveCircle} text="Menu Bar" />
-        <ControlOption icon={AddCircle} text="Options" />
-      </Stack>
-    </Toolbar>
+    <Box className="px-6">
+      <Divider orientation="horizontal" />
+      <Toolbar>
+        <Spacer direction="horizontal" />
+        <Stack spacing={3} direction="row">
+          <ControlOption icon={Circle} text="Open" />
+          <ControlOption icon={Circle} text="Go Back" />
+          <ControlOption icon={RemoveCircle} text="Menu Bar" />
+          <ControlOption icon={AddCircle} text="Options" />
+        </Stack>
+      </Toolbar>
+    </Box>
   );
 }
