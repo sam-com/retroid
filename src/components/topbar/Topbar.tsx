@@ -64,7 +64,7 @@ export function Topbar() {
             <Avatar
               variant="square"
               src={retroidLogo}
-              sx={{ width: 48, height: 48 }}
+              sx={{ width: 48, height: 36 }}
             />
           </Link>
           {crumbs.map((crumb, index) => (
