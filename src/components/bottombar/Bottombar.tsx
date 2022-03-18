@@ -9,8 +9,10 @@ import { Spacer } from "../layout/Spacer";
 
 function ControlOption({
   icon: Icon,
+  color,
   text,
 }: {
+  color?: any;
   icon: SvgIconComponent;
   text: string;
 }) {
@@ -20,7 +22,7 @@ function ControlOption({
       color="text.primary"
       sx={{ userSelect: "none" }}
     >
-      <Icon />
+      <Icon color={color || "info"} />
       {text}
     </Typography>
   );
@@ -33,10 +35,10 @@ export function Bottombar() {
       <Toolbar>
         <Spacer direction="horizontal" />
         <Stack spacing={3} direction="row">
-          <ControlOption icon={Circle} text="Open" />
-          <ControlOption icon={Circle} text="Go Back" />
-          <ControlOption icon={RemoveCircle} text="Menu Bar" />
-          <ControlOption icon={AddCircle} text="Options" />
+          <ControlOption icon={Circle} text="Open" color="success" />
+          <ControlOption icon={Circle} text="Go Back" color="error" />
+          <ControlOption icon={RemoveCircle} text="Menu Bar" color="primary" />
+          <ControlOption icon={AddCircle} text="Options" color="primary" />
         </Stack>
       </Toolbar>
     </Box>

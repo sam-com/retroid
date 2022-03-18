@@ -6,6 +6,9 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 
 const darkTheme = createTheme({
+  typography: {
+    fontFamily: "sans-serif",
+  },
   palette: {
     mode: "dark",
     primary: {

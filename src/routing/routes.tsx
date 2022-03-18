@@ -2,7 +2,6 @@ import { Consoles } from "@/pages/Console";
 import { Games } from "@/pages/Games";
 import { Home, HomeBreadcrumb } from "@/pages/Home";
 import { Play, PlayBreadcrumb } from "@/pages/Play";
-import { Avatar } from "@mui/material";
 import { ReactNode } from "react";
 import { Navigate, RouteObject } from "react-router-dom";
 
@@ -31,7 +30,7 @@ export const routes: RetroidRoute[] = [
   },
   {
     path: "*",
-    element: <Navigate to="/home" />,
+    element: <Navigate to="/" />,
   },
 ];
 

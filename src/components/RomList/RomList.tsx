@@ -92,7 +92,7 @@ function RomArt(props: { selectedRom: number }) {
 
   return (
     <BgContainer className="flex justify-center items-center">
-      <img src={rom?.art} style={{ height: "fit-content" }} />
+      <img src={rom?.art} className="h-fit rounded" />
     </BgContainer>
   );
 }
