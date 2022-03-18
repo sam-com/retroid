@@ -2,6 +2,10 @@ import { Rom, roms } from "@/components/RomList/roms";
 import { useParams } from "react-router-dom";
 import { Emulator } from "../components/emulation/Emulator";
 
+export function PlayBreadcrumb(romId: Rom["id"]) {
+  return roms.find((rom) => rom.id === romId)?.name;
+}
+
 export function Play() {
   const params = useParams();
 

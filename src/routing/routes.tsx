@@ -1,15 +1,20 @@
 import { Consoles } from "@/pages/Console";
 import { Games } from "@/pages/Games";
-import { Home } from "@/pages/Home";
-import { Play } from "@/pages/Play";
+import { Home, HomeBreadcrumb } from "@/pages/Home";
+import { Play, PlayBreadcrumb } from "@/pages/Play";
+import { Avatar } from "@mui/material";
 import { ReactNode } from "react";
+import { Navigate, RouteObject } from "react-router-dom";
 
-export type AppRoute = { path: string; element: ReactNode };
+export type RetroidRoute = RouteObject & {
+  breadcrumb?: (crumb: string) => ReactNode;
+};
 
-export const routes: AppRoute[] = [
+export const routes: RetroidRoute[] = [
   {
     path: "/",
     element: <Home />,
+    breadcrumb: HomeBreadcrumb,
   },
   {
     path: "games",
@@ -18,9 +23,16 @@ export const routes: AppRoute[] = [
   {
     path: "games/:romId",
     element: <Play />,
+    breadcrumb: PlayBreadcrumb,
   },
   {
     path: "consoles",
     element: <Consoles />,
   },
+  {
+    path: "*",
+    element: <Navigate to="/home" />,
+  },
 ];
+
+export const routePatterns = routes.map(({ path }) => path);
