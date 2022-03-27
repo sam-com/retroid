@@ -7,7 +7,12 @@ export function BgContainer(props: {
   className?: string;
 }) {
   return (
-    <Box className={classNames("relative w-full h-full", props.className)}>
+    <Box
+      className={classNames(
+        "relative w-full h-full overflow-hidden",
+        props.className
+      )}
+    >
       <div className="absolute inset-0 bg-black bg-opacity-20 rounded-lg pointer-events-none" />
       {props.children}
     </Box>

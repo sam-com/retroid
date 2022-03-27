@@ -7,7 +7,7 @@ type UseStateRefOutput<T> = [
 ];
 
 export function useStateRef<T>(initialState: T): UseStateRefOutput<T> {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<T>(initialState);
   const ref = useRef(state);
 
   useEffect(() => {

@@ -1,12 +1,15 @@
 import {
   Avatar,
-  Box,
   Divider,
-  Drawer,
+  Drawer as MuiDrawer,
   Tab,
   Tabs,
   Badge,
   styled,
+  Theme,
+  CSSObject,
+  Typography,
+  Box,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +22,12 @@ import {
   sidebarItemKeys,
 } from "./sidebarItems";
 import { SidebarItem } from "./types";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { FocusContainer } from "../layout/FocusContainer";
+import { toggleSidebarFocus } from "@/api/utils/inputManager/inputsManagerSlice";
+import { useKeyboardInput } from "@/hooks/useKeyboardInput";
+import { useStateRef } from "@/hooks/useStateRef";
+import { useSound } from "@/hooks/useSound";
 
 type SidebarMenuItemProps = {
   item: SidebarItem;
@@ -31,9 +40,17 @@ function getTab({ active, item, onClick }: SidebarMenuItemProps) {
 
   return (
     <Tab
+      sx={{
+        justifyContent: "flex-start",
+        gap: "10px",
+        minHeight: "48px",
+        fontWeight: "bold",
+      }}
       key={item.key}
       value={item.key}
+      label={item.label}
       icon={<Icon fontSize="large" />}
+      iconPosition="start"
       onClick={() => onClick(item)}
     />
   );
@@ -68,6 +85,41 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: 240,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  width: 70,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: 240,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
+
 const findActiveItem = (pathname: string) =>
   sidebarItemKeys.find((key) => pathname.includes(key)) || sidebarItemKeys[0];
 
@@ -85,38 +137,69 @@ function useActiveTab() {
   return activeItem;
 }
 
+function useSidebarExpanded() {
+  const [expanded, setExpanded, expandedRef] = useStateRef(false);
+  const dispatch = useAppDispatch();
+  const [playExpand] = useSound("expand.m4a");
+  const [playCollapse] = useSound("collapse.m4a");
+
+  const handleToggleSidebar = () => {
+    if (expandedRef.current) playCollapse();
+    else playExpand();
+
+    dispatch(toggleSidebarFocus());
+  };
+
+  useKeyboardInput("m", handleToggleSidebar, { requireFocus: false });
+
+  const { focusContainerId } = useAppSelector((state) => state.inputsManager);
+  useEffect(() => {
+    const _expanded = focusContainerId === "sidebarId";
+    setExpanded(_expanded);
+  }, [focusContainerId]);
+
+  return { expanded };
+}
+
 export function Sidebar() {
   const navigate = useNavigate();
   const activeItem = useActiveTab();
+  const { expanded } = useSidebarExpanded();
 
   const handleChangeActiveItem = (item: SidebarItem) => navigate(item.link);
 
   return (
-    <Drawer
-      variant="permanent"
-      anchor="left"
-      sx={{ width: "90px" }}
-      elevation={0}
-    >
-      <Box className="flex flex-col grow items-center pt-4 overflow-hidden">
-        <StyledBadge
-          color="success"
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-        >
-          <Avatar src={avatarImg} sx={{ bgcolor: "primary.main" }} />
-        </StyledBadge>
+    <Drawer variant="permanent" open={expanded} elevation={0}>
+      <FocusContainer
+        focusContainerId="sidebarId"
+        className="flex flex-col grow items-start pt-4 overflow-hidden"
+      >
+        <Box className="flex items-center">
+          <StyledBadge
+            color="success"
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+            <Avatar
+              src={avatarImg}
+              sx={{ bgcolor: "primary.main", marginLeft: "15px" }}
+            />
+          </StyledBadge>
+          <Typography sx={{ paddingLeft: "15px" }} fontWeight="bold">
+            Samuel Comeau
+          </Typography>
+        </Box>
 
         <Divider sx={{ margin: "16px 0" }} />
+
         <Tabs
           value={activeItem}
           orientation="vertical"
-          variant="scrollable"
           aria-label="tabs"
           classes={{
-            root: "grow",
-            indicator: "left-0 bg-green-50",
+            root: "grow w-full",
+            indicator: "left-0",
             flexContainerVertical: "h-full",
           }}
         >
@@ -136,7 +219,7 @@ export function Sidebar() {
             })
           )}
         </Tabs>
-      </Box>
+      </FocusContainer>
     </Drawer>
   );
 }

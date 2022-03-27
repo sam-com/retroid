@@ -11,17 +11,19 @@ const toBreadcrumbItem = (crumb: BreadcrumbItem) => (
 
 const Breadcrumb = ({ crumb }: { crumb: BreadcrumbItem }) => (
   <Link component={RouterLink} to={crumb.to} color="inherit" underline="hover">
-    <Typography variant="h6" sx={{ userSelect: "none" }}>
+    <Typography variant="h6" fontWeight="bold" sx={{ userSelect: "none" }}>
       {crumb.item}
     </Typography>
   </Link>
 );
 
-const TopBarRight = () => (
-  <div className="gap-1 flex items-center">
-    <Clock />
-  </div>
-);
+const TopBarRight = () => {
+  return (
+    <div className="gap-1 flex items-center">
+      <Clock />
+    </div>
+  );
+};
 
 const TopBarLeft = () => {
   const breadcrumbs = useBreadcrumbs();
@@ -35,12 +37,14 @@ const TopBarLeft = () => {
   );
 };
 
-export const Topbar = () => (
-  <AppBar position="relative" color="transparent" elevation={0}>
-    <Toolbar>
-      <TopBarLeft />
-      <Spacer direction="horizontal" />
-      <TopBarRight />
-    </Toolbar>
-  </AppBar>
-);
+export const Topbar = () => {
+  return (
+    <AppBar position="relative" color="transparent" elevation={0}>
+      <Toolbar>
+        <TopBarLeft />
+        <Spacer direction="horizontal" />
+        <TopBarRight />
+      </Toolbar>
+    </AppBar>
+  );
+};

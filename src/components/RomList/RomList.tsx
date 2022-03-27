@@ -1,7 +1,7 @@
-import { useKeyboardInput } from "@/hooks/useKeyboardInput";
+import { useSound } from "@/hooks/useSound";
 import { useStateRef } from "@/hooks/useStateRef";
+import { useAppDispatch } from "@/redux/hooks";
 import {
-  Button,
   Grid,
   Table,
   TableBody,
@@ -12,9 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BgContainer } from "../layout/BgContainer";
+import { FocusContainer } from "../layout/FocusContainer";
+import { RomDetails } from "./RomDetails";
 import { Rom, roms } from "./roms";
 
 interface RomTableProps {
@@ -49,16 +51,23 @@ function RomTableBody(props: RomTableProps) {
   );
 }
 
-const RomTable = (props: RomTableProps) => (
-  <BgContainer>
-    <TableContainer sx={{ flexGrow: 1, width: "auto" }}>
-      <Table aria-label="roms table" size="small">
-        <RomTableHeader />
-        <RomTableBody {...props} />
-      </Table>
-    </TableContainer>
-  </BgContainer>
-);
+const RomTable = (props: RomTableProps) => {
+  const tableRef = useRef<HTMLTableElement>(null);
+
+  return (
+    <BgContainer>
+      <TableContainer
+        id="abc123"
+        sx={{ width: "auto", height: "100%", outline: "none" }}
+      >
+        <Table aria-label="roms table" size="small">
+          <RomTableHeader />
+          <RomTableBody {...props} />
+        </Table>
+      </TableContainer>
+    </BgContainer>
+  );
+};
 
 export function RomListItem(props: {
   rom: Rom;
@@ -67,10 +76,13 @@ export function RomListItem(props: {
   onClick: (romIndex: number) => void;
 }) {
   const { rom, index, selectedRom, onClick } = props;
+  const selected = index === selectedRom;
+  const color = selected ? "primary.main" : "text.primary";
 
   return (
     <TableRow
       hover
+      tabIndex={0}
       selected={index === selectedRom}
       onClick={() => onClick(index)}
       className="cursor-pointer select-none"
@@ -79,7 +91,7 @@ export function RomListItem(props: {
         <img src="/consoles/snes.png" style={{ maxWidth: "36px" }} />
       </TableCell>
       <TableCell>
-        <Typography variant="body1" color="text.primary">
+        <Typography variant="body1" fontWeight="bold" color={color}>
           {rom.name}
         </Typography>
       </TableCell>
@@ -91,28 +103,11 @@ function RomArt(props: { selectedRom: number }) {
   const rom = roms[props.selectedRom];
 
   return (
-    <BgContainer className="flex justify-center items-center">
-      <img src={rom?.art} className="h-fit rounded" />
-    </BgContainer>
-  );
-}
-
-function RomDetails() {
-  return (
-    <BgContainer>
-      <Typography variant="body1" color="text.primary">
-        Rom Details
-      </Typography>
-    </BgContainer>
-  );
-}
-
-function RomDescription() {
-  return (
-    <BgContainer>
-      <Typography variant="body1" color="text.primary">
-        Description
-      </Typography>
+    <BgContainer className="flex items-center justify-center p-8">
+      <img
+        src={rom?.art}
+        className="h-fit rounded p-1 border-white border-2 border-opacity-50"
+      />
     </BgContainer>
   );
 }
@@ -121,21 +116,17 @@ const RomListLayout = (props: {
   romTable: ReactNode;
   romArt: ReactNode;
   romDetails: ReactNode;
-  romDescription: ReactNode;
 }) => (
   <Grid container spacing={2}>
-    <Grid item xs={5}>
+    <Grid item xs={7} height="100%">
       {props.romTable}
     </Grid>
-    <Grid item container xs={7} spacing={2}>
+    <Grid item container xs={5} spacing={2}>
       <Grid item xs={12} height="65%">
         {props.romArt}
       </Grid>
-      {/* <Grid item xs={5} height="65%">
-        {props.romDetails}
-      </Grid> */}
       <Grid item xs={12} height="35%">
-        {props.romDescription}
+        {props.romDetails}
       </Grid>
     </Grid>
   </Grid>
@@ -143,35 +134,46 @@ const RomListLayout = (props: {
 
 export function RomList() {
   const [selectedRom, setSelectedRom, selectedRomRef] = useStateRef(0);
-  const handleClickRom = (romIndex: number) => setSelectedRom(romIndex);
   const navigate = useNavigate();
+  const [play] = useSound("tab_1.m4a");
+
+  const handleClickRom = (romIndex: number) => {
+    play();
+    setSelectedRom(romIndex);
+  };
 
   const handleNavigate = () =>
     navigate(`/games/${roms[selectedRomRef.current].id}`);
+  const handleMoveDown = () =>
+    handleClickRom((selectedRomRef.current + 1) % roms.length);
 
-  useKeyboardInput("Enter", handleNavigate);
-  useKeyboardInput("ArrowUp", () =>
-    setSelectedRom(
+  const handleMoveUp = () =>
+    handleClickRom(
       selectedRomRef.current > 0 ? selectedRomRef.current - 1 : roms.length - 1
-    )
-  );
-  useKeyboardInput("ArrowDown", () =>
-    setSelectedRom((selectedRomRef.current + 1) % roms.length)
-  );
+    );
+
+  const inputHandlers = {
+    Enter: handleNavigate,
+    ArrowUp: handleMoveUp,
+    ArrowDown: handleMoveDown,
+  };
 
   const romTable = (
     <RomTable selectedRom={selectedRom} onClickRom={handleClickRom} />
   );
   const romArt = <RomArt selectedRom={selectedRom} />;
   const romDetails = <RomDetails />;
-  const romDescription = <RomDescription />;
 
   return (
-    <RomListLayout
-      romTable={romTable}
-      romArt={romArt}
-      romDetails={romDetails}
-      romDescription={romDescription}
-    />
+    <FocusContainer
+      className="flex grow overflow-hidden"
+      inputHandlers={inputHandlers}
+    >
+      <RomListLayout
+        romTable={romTable}
+        romArt={romArt}
+        romDetails={romDetails}
+      />
+    </FocusContainer>
   );
 }

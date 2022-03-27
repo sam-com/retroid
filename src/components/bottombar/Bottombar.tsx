@@ -20,6 +20,7 @@ function ControlOption({
     <Typography
       className="flex gap-1"
       color="text.primary"
+      fontWeight="bold"
       sx={{ userSelect: "none" }}
     >
       <Icon color={color || "info"} />
