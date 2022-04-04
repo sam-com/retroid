@@ -219,7 +219,7 @@ export function Sidebar() {
 
   const handleChangeActiveItem = (item: SidebarItem) => {
     navigate(item.link);
-    dispatch(toggleSidebarFocus());
+    dispatch(toggleSidebarFocus(false));
   };
 
   return (

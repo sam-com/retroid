@@ -12,10 +12,12 @@ const inputsManagerSlice = createSlice({
   name: "inputsManager",
   initialState,
   reducers: {
-    toggleSidebarFocus(state) {
-      const focusContainerId =
-        state.focusContainerId === "sidebarId" ? null : "sidebarId";
-      state.focusContainerId = focusContainerId;
+    toggleSidebarFocus(state, action: PayloadAction<boolean>) {
+      const { focusContainerId } = state;
+
+      if (focusContainerId || action.payload === false)
+        state.focusContainerId = null;
+      else state.focusContainerId = "sidebarId";
     },
   },
 });
