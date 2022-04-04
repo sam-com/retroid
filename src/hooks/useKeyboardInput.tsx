@@ -5,7 +5,7 @@ import { throttle } from "throttle-debounce";
 
 type UseKeyboardInputOptions = {
   delay?: number;
-  once?: boolean;
+  repeat?: boolean;
   focusContainerId?: string | null;
   requireFocus?: boolean;
 };
@@ -15,14 +15,12 @@ export function useKeyboardInput(
   callback: () => void,
   {
     delay = 75,
-    once = false,
+    repeat = false,
     focusContainerId = null,
     requireFocus = true,
   }: UseKeyboardInputOptions = {}
 ) {
-  const keyboardListener = throttle(delay, false, (e: KeyboardEvent) => {
-    e.preventDefault();
-
+  const keyboardListener = throttle(delay, true, (e: KeyboardEvent) => {
     const { inputsManager } = store.getState();
 
     if (requireFocus && inputsManager.focusContainerId !== focusContainerId) {
@@ -30,11 +28,13 @@ export function useKeyboardInput(
     }
 
     if (e.key !== key) return;
+    if (!repeat && e.repeat) return;
+
     callback();
   });
 
   useEffect(() => {
-    window.addEventListener("keydown", keyboardListener, { once });
+    window.addEventListener("keydown", keyboardListener);
 
     return () => window.removeEventListener("keydown", keyboardListener);
   }, []);

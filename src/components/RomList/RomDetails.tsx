@@ -27,13 +27,8 @@ export function RomDetails() {
   return (
     <BgContainer className="p-8 overflow-hidden">
       {detailFields.map((field, index) => (
-        <Box className="flex gap-4">
-          <Typography
-            key={field}
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-          >
+        <Box className="flex gap-4" key={field}>
+          <Typography variant="body1" fontWeight="bold" color="text.primary">
             {field}:
           </Typography>
           <Typography variant="body1" color="text.secondary">

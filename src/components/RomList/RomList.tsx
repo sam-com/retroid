@@ -88,7 +88,7 @@ export function RomListItem(props: {
       className="cursor-pointer select-none"
     >
       <TableCell width={48}>
-        <img src="/consoles/snes.png" style={{ maxWidth: "36px" }} />
+        <img src="/consoles/snes.png" style={{ maxWidth: "48px" }} />
       </TableCell>
       <TableCell>
         <Typography variant="body1" fontWeight="bold" color={color}>
@@ -153,9 +153,9 @@ export function RomList() {
     );
 
   const inputHandlers = {
-    Enter: handleNavigate,
-    ArrowUp: handleMoveUp,
-    ArrowDown: handleMoveDown,
+    Enter: { handler: handleNavigate, repeat: false },
+    ArrowUp: { handler: handleMoveUp, repeat: true },
+    ArrowDown: { handler: handleMoveDown, repeat: true },
   };
 
   const romTable = (

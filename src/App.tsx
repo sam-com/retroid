@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 
 import { Bottombar } from "./components/bottombar/Bottombar";
@@ -16,6 +17,10 @@ function App() {
   const toRouterRoute = (route: RetroidRoute) => (
     <Route key={route.path} {...route} />
   );
+
+  // useEffect(() => {
+  //   setInterval(() => console.log(document.activeElement), 2000);
+  // }, []);
 
   return (
     <Routes>

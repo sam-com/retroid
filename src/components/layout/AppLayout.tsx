@@ -1,5 +1,6 @@
-import { Box, Paper } from "@mui/material";
-import { ReactNode } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { Backdrop, Box, Paper } from "@mui/material";
+import { ReactNode, useEffect, useState } from "react";
 
 type AppLayoutProps = {
   left: ReactNode;
@@ -26,13 +27,29 @@ const RightContainer = (props: {
   top: ReactNode;
   center: ReactNode;
   bottom: ReactNode;
-}) => (
-  <div className="flex grow flex-col">
-    {props.top}
-    <CenterContainer>{props.center}</CenterContainer>
-    {props.bottom}
-  </div>
-);
+}) => {
+  const [backdropVisible, setBackdropVisible] = useState(false);
+
+  const { focusContainerId } = useAppSelector((state) => state.inputsManager);
+  useEffect(() => {
+    const visible = focusContainerId === "sidebarId";
+    setBackdropVisible(visible);
+  }, [focusContainerId]);
+
+  return (
+    <>
+      <Backdrop
+        open={backdropVisible}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer - 1 }}
+      />
+      <div className="flex grow flex-col">
+        {props.top}
+        <CenterContainer>{props.center}</CenterContainer>
+        {props.bottom}
+      </div>
+    </>
+  );
+};
 
 export function AppLayout(props: AppLayoutProps) {
   return (

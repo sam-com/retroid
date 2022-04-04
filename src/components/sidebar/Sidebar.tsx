@@ -11,7 +11,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import avatarImg from "@/assets/avatar.png";
 
@@ -35,17 +35,29 @@ type SidebarMenuItemProps = {
   active: boolean;
 };
 
+const StyledTab = styled((props: any) => <Tab disableRipple {...props} />)(
+  ({ theme }) => ({
+    textTransform: "none",
+    minHeight: "48px",
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.pxToRem(16),
+    display: "flex",
+    gap: "10px",
+    justifyContent: "flex-start",
+    "&:hover": {
+      backgroundColor: "rgba(211, 211, 211, 0.25)",
+    },
+    "&.Mui-focusVisible": {
+      backgroundColor: "rgba(211, 211, 211, 0.25)",
+    },
+  })
+);
+
 function getTab({ active, item, onClick }: SidebarMenuItemProps) {
   const Icon = active ? item.activeIcon : item.icon;
 
   return (
-    <Tab
-      sx={{
-        justifyContent: "flex-start",
-        gap: "10px",
-        minHeight: "48px",
-        fontWeight: "bold",
-      }}
+    <StyledTab
       key={item.key}
       value={item.key}
       label={item.label}
@@ -110,6 +122,11 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+  "& .MuiTabs-indicator": {
+    left: 0,
+    width: 4,
+    borderRadius: 8,
+  },
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -122,6 +139,9 @@ const Drawer = styled(MuiDrawer, {
 
 const findActiveItem = (pathname: string) =>
   sidebarItemKeys.find((key) => pathname.includes(key)) || sidebarItemKeys[0];
+
+const findActiveItemIndex = (pathname: string) =>
+  sidebarItemKeys.findIndex((key) => pathname.includes(key)) || 0;
 
 function useActiveTab() {
   const location = useLocation();
@@ -137,7 +157,7 @@ function useActiveTab() {
   return activeItem;
 }
 
-function useSidebarExpanded() {
+function useSidebarExpanded(drawerRef: RefObject<HTMLButtonElement>) {
   const [expanded, setExpanded, expandedRef] = useStateRef(false);
   const dispatch = useAppDispatch();
   const [playExpand] = useSound("expand.m4a");
@@ -150,23 +170,57 @@ function useSidebarExpanded() {
     dispatch(toggleSidebarFocus());
   };
 
-  useKeyboardInput("m", handleToggleSidebar, { requireFocus: false });
+  useKeyboardInput("m", handleToggleSidebar, {
+    requireFocus: false,
+    delay: 200,
+  });
 
   const { focusContainerId } = useAppSelector((state) => state.inputsManager);
   useEffect(() => {
     const _expanded = focusContainerId === "sidebarId";
     setExpanded(_expanded);
+
+    const selectedTabNode = drawerRef.current?.querySelectorAll(
+      ".MuiTab-root"
+    )[0] as HTMLButtonElement;
+
+    if (_expanded) {
+      selectedTabNode.focus();
+    } else {
+      selectedTabNode.blur();
+    }
   }, [focusContainerId]);
 
   return { expanded };
 }
 
+function useFocusTabItem({ drawerRef, activeItem, expanded }) {
+  useEffect(() => {
+    const activeItemIndex = findActiveItemIndex(activeItem);
+    const selectedTabNode = drawerRef.current?.querySelectorAll(".MuiTab-root")[
+      activeItemIndex
+    ] as HTMLButtonElement;
+
+    if (expanded) {
+      selectedTabNode.focus();
+    } else {
+      selectedTabNode.blur();
+    }
+  }, [expanded]);
+}
+
 export function Sidebar() {
+  const drawerRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   const activeItem = useActiveTab();
-  const { expanded } = useSidebarExpanded();
+  const { expanded } = useSidebarExpanded(drawerRef);
+  useFocusTabItem({ drawerRef, activeItem, expanded });
+  const dispatch = useAppDispatch();
 
-  const handleChangeActiveItem = (item: SidebarItem) => navigate(item.link);
+  const handleChangeActiveItem = (item: SidebarItem) => {
+    navigate(item.link);
+    dispatch(toggleSidebarFocus());
+  };
 
   return (
     <Drawer variant="permanent" open={expanded} elevation={0}>
@@ -194,13 +248,13 @@ export function Sidebar() {
         <Divider sx={{ margin: "16px 0" }} />
 
         <Tabs
+          ref={drawerRef}
           value={activeItem}
           orientation="vertical"
           aria-label="tabs"
           classes={{
             root: "grow w-full",
-            indicator: "left-0",
-            flexContainerVertical: "h-full",
+            flexContainerVertical: "grow h-full",
           }}
         >
           {mainSidebarItems.map((mainItem) =>
